@@ -53,11 +53,12 @@ def index():
 def test_connect():
     # need visibility of the global thread object
     global thread, counter
-    counter += 1
-    print(f'Client connected actual: {counter}')    
+    
+    print(f'Client connected actual: {counter}, then counter: {counter + 1}')    
 
     #Start the random number generator thread only if the thread has not been started before.
-    if not thread.is_alive():
+    if counter < 1:
+        counter += 1
         thread = RandomThread()
         thread.start()
         print("Starting Thread: ", counter)
@@ -70,6 +71,9 @@ def test_disconnect():
 
     if counter > 0:
         counter -= 1
+    
+    if counter == 0:
+        print("Stopping thread.")
 
 
 if __name__ == '__main__':
