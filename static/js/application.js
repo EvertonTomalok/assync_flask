@@ -1,21 +1,21 @@
 
 $(document).ready(function(){
     //connect to the socket server.
-    var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-    console.log('http://' + document.domain + ':' + location.port + '/test')
-    // var numbers_received = [];
+    var socket = io.connect('http://' + document.domain + ':' + location.port + '/comandas_ativas');
+    console.log('http://' + document.domain + ':' + location.port + '/comandas_ativas')
 
     //receive details from server
-    socket.on('newnumber', function(msg) {
-        var numbers_string = '';
-        for (var i = 0; i < msg.number.length; i++){
-            var obj = msg.number[i];
+    socket.on('comandas', function(msg) {
+        var comandas_string = '';
+        for (var i = 0; i < msg.lista_comandas.length; i++){
+            var obj = msg.lista_comandas[i];
             let nome = obj["nome"];
             let clientId = obj["cliente_id"];
-	    let total = obj["total"];
-            numbers_string += "<p>nome:" + nome + " client_id:" +  clientId + "total: " + total + "</p>";
+            let total = obj["total"];
+            let inicio = obj["inicio"]
+            comandas_string += "<p>nome: " + nome + " | client_id: " +  clientId + " | total: " + total + " | inicio: " + inicio +"</p>";
         }
-        $('#log').html(numbers_string);
+        $('#log').html(comandas_string);
     });
 
 });

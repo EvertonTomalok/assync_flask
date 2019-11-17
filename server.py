@@ -33,7 +33,7 @@ class RandomThread(Thread):
         while counter > 0:
             try:
                 response = get("http://3.15.173.81:5050/comandas/active").json()
-                socketio.emit('newnumber', {'number': response}, namespace='/test')
+                socketio.emit('comandas', {'lista_comandas': response}, namespace='/comandas_ativas')
             except Exception as err:
                 print(err, type(err))
 
@@ -49,7 +49,7 @@ def index():
     #only by sending this page first will the client be connected to the socketio instance
     return render_template('index.html')
 
-@socketio.on('connect', namespace='/test')
+@socketio.on('connect', namespace='/comandas_ativas')
 def test_connect():
     # need visibility of the global thread object
     global thread, counter
@@ -63,7 +63,7 @@ def test_connect():
         thread.start()
         print("Starting Thread: ", counter)
 
-@socketio.on('disconnect', namespace='/test')
+@socketio.on('disconnect', namespace='/comandas_ativas')
 def test_disconnect():
     global counter
 
